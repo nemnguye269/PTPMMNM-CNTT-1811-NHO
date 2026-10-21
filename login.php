@@ -16,19 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Kiểm tra tài khoản tồn tại và khớp mật khẩu thô
     if ($user && $password === $user['password']) {
         $_SESSION['user'] = $user;
-        header('Location: admin.php');
+        
+        // TEST THỬ SESSION: In ra màn hình để xác nhận đăng nhập thành công
+        echo "<h3>Đăng nhập thành công! Dữ liệu Session hiện tại:</h3>";
+        echo "<pre>";
+        print_r($_SESSION);
+        echo "</pre>";
+        echo '<br><a href="admin.php" class="btn btn-primary">Bấm vào đây để sang trang Quản trị (admin.php)</a>';
         exit;
     } else {
         $error = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
     }
-    if ($user && $password === $user['password']) {
-    $_SESSION['user'] = $user;
-    
-    // Test thử xem session đã chạy chưa
-    echo "Đăng nhập thành công! Session đang có: ";
-    print_r($_SESSION);
-    exit; 
-}
 }
 ?>
 <!DOCTYPE html>
