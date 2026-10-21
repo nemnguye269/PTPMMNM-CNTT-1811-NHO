@@ -21,6 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $error = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
     }
+    if ($user && $password === $user['password']) {
+    $_SESSION['user'] = $user;
+    
+    // Test thử xem session đã chạy chưa
+    echo "Đăng nhập thành công! Session đang có: ";
+    print_r($_SESSION);
+    exit; 
+}
 }
 ?>
 <!DOCTYPE html>
