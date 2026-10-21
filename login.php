@@ -11,13 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Kiểm tra tài khoản và mật khẩu (hỗ trợ cả mật khẩu thường lẫn password_hash)
+    // Chấp nhận cả mật khẩu dạng thô '123456' hoặc mật khẩu đã mã hóa
     if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
         $_SESSION['user'] = $user;
-        header('Location: ../admin.php'); // Hoặc admin.php tùy cấu trúc thư mục của bạn
+        header('Location: admin.php');
         exit;
     } else {
-        $error = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
+        $error = 'Sai tên đăng nhập hoặc mật khẩu!';
     }
 }
 ?>
@@ -41,14 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="POST">
                     <div class="mb-3">
                         <label class="form-label">Tên đăng nhập</label>
-                        <input type="text" name="username" class="form-control" placeholder="admin" required>
+                        <input type="text" name="username" class="form-control" value="admin" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mật khẩu</label>
-                        <input type="password" name="password" class="form-control" placeholder="123456" required>
+                        <input type="password" name="password" class="form-control" value="123456" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100 mb-2">Đăng nhập</button>
-                    <a href="../index.php" class="btn btn-outline-secondary w-100">Quay lại trang chủ</a>
+                    <a href="index.php" class="btn btn-outline-secondary w-100">Quay lại trang chủ</a>
                 </form>
             </div>
         </div>
