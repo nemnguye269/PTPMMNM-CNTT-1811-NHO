@@ -3,21 +3,23 @@ session_start();
 require_once __DIR__ . '/config/database.php';
 
 $error = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
+    // Truy vấn tìm tài khoản theo username
     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Chấp nhận cả mật khẩu dạng thô '123456' hoặc mật khẩu đã mã hóa
-    if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
+    // Kiểm tra tài khoản tồn tại và khớp mật khẩu thô
+    if ($user && $password === $user['password']) {
         $_SESSION['user'] = $user;
         header('Location: admin.php');
         exit;
     } else {
-        $error = 'Sai tên đăng nhập hoặc mật khẩu!';
+        $error = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
     }
 }
 ?>
@@ -32,10 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container" style="max-width: 400px;">
         <div class="card shadow-sm border-0">
             <div class="card-body p-4">
-                <h3 class="text-center mb-4 text-primary">Đăng Nhập Quản Trị</h3>
+                <h3 class="text-center mb-4 text-primary">Quản Trị Hệ Thống</h3>
                 
                 <?php if (!empty($error)): ?>
-                    <div class="alert alert-danger"><?= $error ?></div>
+                    <div class="alert alert-danger py-2"><?= $error ?></div>
                 <?php endif; ?>
 
                 <form method="POST">
@@ -47,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="form-label">Mật khẩu</label>
                         <input type="password" name="password" class="form-control" value="123456" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 mb-2">Đăng nhập</button>
-                    <a href="index.php" class="btn btn-outline-secondary w-100">Quay lại trang chủ</a>
+                    <button type="submit" class="btn btn-primary w-100 mb-2">Đăng Nhập</button>
+                    <a href="index.php" class="btn btn-outline-secondary w-100">Về trang chủ</a>
                 </form>
             </div>
         </div>
