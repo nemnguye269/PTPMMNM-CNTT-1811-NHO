@@ -1,9 +1,5 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit;
-}
 require_once __DIR__ . '/config/database.php';
 
 // Lấy danh sách toàn bộ tuyến xe
@@ -23,9 +19,7 @@ $routes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <a class="navbar-brand" href="admin.php">Quản lý Lịch trình Xe</a>
         <div>
-            <span class="text-white me-3">Xin chào, <?= htmlspecialchars($_SESSION['user']['fullname'] ?? $_SESSION['user']['username'] ?? 'Admin') ?></span>
             <a href="index.php" class="btn btn-outline-light btn-sm me-2">Xem Trang chủ</a>
-            <a href="handle/logout.php" class="btn btn-danger btn-sm">Đăng xuất</a>
         </div>
     </div>
 </nav>
